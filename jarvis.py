@@ -4,6 +4,7 @@ import datetime
 import wikipedia
 import webbrowser
 import os
+import smtplib
 
 
 engine = pyttsx3.init('sapi5')    #sapi5 =input the voice
@@ -46,11 +47,19 @@ def takeCommand():
     return query
 
 
+def sendemail(to,content):
+    server=smtplib.SMTP("smtp.gmail.com",587)
+    server.ehlo()
+    server.starttls()
+    server.login("rudanijemin@gmail.com","1892002j")
+    server.sendmail("rudanijemin@gmail.com",to,content)
+    server.close()
+
 
 if __name__=="__main__":
    wishMe()
-   #while True:
-   if 1:
+   while True:
+   #if 1:
     query=takeCommand().lower()
 
     #logic for executing
@@ -78,7 +87,7 @@ if __name__=="__main__":
     elif "the time" in query:
         strTime=datetime.datetime.now().strftime("%H:%M:%S")
         print(strTime)
-        speak(f"sir ,the time is {strTime}")
+        speak(f"jemin bhai ,the time is {strTime}")
 
     elif "open spotify" in query:
         codepath="C:\\Users\\ACER\\AppData\\Roaming\\Spotify\\Spotify.exe" 
@@ -88,6 +97,21 @@ if __name__=="__main__":
     elif "open vs code" in query:
         codepath="C:\\Program Files\\Microsoft VS Code\\Code.exe" 
         os.startfile(codepath)
+
+    elif "open sublime text" in query:
+        codepath="C:\\Program Files\\Sublime Text 3\\sublime_text.exe" 
+        os.startfile(codepath)
+
+    elif 'email to jemin' in query:
+        try:
+            speak("what should i say?")
+            content=takeCommand()
+            to="rudanijemin@gmail.com"
+            sendemail=(to,content)
+            speak("email has been sent")
+        except Exception as e:
+            print(e)
+            speak("sorry my friend jemin bhai . i am not able to send this email")
           
     
 
